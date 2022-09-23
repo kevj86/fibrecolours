@@ -169,7 +169,7 @@ span {
   color: #fff;
 }
 
-.reset {
+#reset {
   text-align: center;
   margin: 0 auto;
   margin-top: 1em;
@@ -198,6 +198,7 @@ span {
 @media (max-width: 520px) {
   #number-others,
   #element-others {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 }
