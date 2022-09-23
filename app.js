@@ -39,7 +39,7 @@ function getElementNumber() {
     coloursHtml += `<span class="${fibreColours[i]}-fibre">${maxElementFibre * elementNumber.value - (11 - i)}</span> `;
   }
 
-  elementCount.innerHTML = `<div id="element-Count">Fibre is in ELEMENT ${elementNumber.value}</div>`;
+  elementCount.innerHTML = `<div id="element-Count">Fibres ELEMENT ${elementNumber.value}</div>`;
   elementOther.innerHTML = `<div id="element-others">${coloursHtml}</div>`;
 }
 

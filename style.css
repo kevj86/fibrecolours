@@ -189,6 +189,10 @@ span {
     width: 100%;
   }
 
+  body {
+    margin-top: 1em;
+  }
+
   .number-side,
   .element-side {
     width: 100%;
