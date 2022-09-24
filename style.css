@@ -183,8 +183,13 @@ span {
   border-radius: 10px;
 }
 
-#gregg {
-  display: none;
+.alert {
+  background: crimson;
+  color: white;
+  font-weight: 700;
+  width: 60%;
+  border-radius: 10px;
+  text-align: center;
 }
 
 @media (max-width: 800px) {
