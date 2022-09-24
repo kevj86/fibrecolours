@@ -183,6 +183,10 @@ span {
   border-radius: 10px;
 }
 
+#gregg {
+  display: none;
+}
+
 @media (max-width: 800px) {
   .container {
     flex-direction: column;

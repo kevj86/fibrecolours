@@ -23,6 +23,8 @@ function getFibreNumber() {
   }
 
   if (fibreNumber.value === "" || fibreNumber.value === "0") {
+  } else if (fibreNumber.value == "greg") {
+    document.getElementById("gregg").style.display = "block";
   } else {
     numberColour.innerHTML = `<div id="number-colour">Fibre ${fibre} is <span class="${fibreColours[fibreColour]}-fibre inline-span">${fibreColours[fibreColour]}</span></div>`;
     numberElement.innerHTML = `<div id="number-element">Fibre is in ELEMENT ${elementValue}</div>`;
