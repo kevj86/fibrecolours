@@ -4,46 +4,30 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="/style.css" />
-    <title>Fibre Colour Code</title>
+    <title>KJ's Fibre Colour Counter</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="number-side">
-        <h2>Fibre by Number</h2>
-        <label for="fibre-number">FIBRE</label>
-        <input id="fibre-number" type="number" placeholder="enter fibre number" pattern="\d*" />
-
-        <div id="number-results" class="number-results">
-          <div id="number-colour"></div>
-          <div id="number-element"></div>
-          <div id="number-others"></div>
+    <div class="wrapper">
+      <div class="element-selector">
+        <p>select element size</p>
+        <div class="selector-buttons">
+          <button class="btn" id="12f">12F</button>
+          <button class="btn" id="8f">8F</button>
         </div>
-
       </div>
-
-      <div class="element-side">
-        <h2>Fibre by Element</h2>
-        <label for="element-number">ELEMENT</label>
-        <input id ="element-number" type="number" placeholder="enter element number" pattern="\d*" />
-
-        <div class="element-results">
-          <div id="element-count"></div>
-          <div id="element-others"></div>
-        </div>
-
+      <div class="fibre-number">
+        <h2>fibre by number<span class="accent">.</span></h2>
+        <input type="number" placeholder="Enter Fibre Number" id="fibre-number" />
+        <div id="display-fibre"></div>
       </div>
+      <div class="fibre-element">
+        <h2>fibre by element<span class="accent">.</span></h2>
+        <input type="number" placeholder="Enter Element Number" id="fibre-element" />
+        <div id="display-element"></div>
+      </div>
+      <button id="reset">RESET</button>
     </div>
-
-    <div class="element-fibres">
-        <div class="box active" id="twelve-fibre">12F</div>
-        <div class="box" id="eight-fibre">8F</div>
-    </div>
-
-    <div id="reset">RESET</div>
-    </div>
-
-
-    <script src="/app.js"></script>
   </body>
+  <script src="/app.js"></script>
 </html>

@@ -1,149 +1,66 @@
-const fibreNumber = document.getElementById("fibre-number")
-const elementNumber = document.getElementById("element-number")
-const elementCount = document.getElementById("element-count")
-const elementOther = document.getElementById("element-others")
-const numberResults = document.getElementById("number-results")
-const numberColour = document.getElementById("number-colour")
-const numberElement = document.getElementById("number-element")
-const numberOthers = document.getElementById("number-others")
-const resetButton = document.getElementById("reset")
-const twelveFibre = document.getElementById("twelve-fibre")
-const eightFibre = document.getElementById("eight-fibre")
+let elementSize = null;
 
-let fibreSelect = 12
+const maxElementFibre = 12;
+const maxElementFibreEight = 8;
 
-const maxElementFibre = 12
-const maxElementFibreEight = 8
-// prettier-ignore
-const fibreColours = ["blue", "orange", "green", "red", "slate", "yellow", "brown", "purple", "black", "white", "pink", "aqua"]
-const fibreColoursEight = ["blue", "orange", "green", "red", "slate", "yellow", "brown", "purple"]
-// function
+const fibreColours = ["blue", "orange", "green", "red", "slate", "yellow", "brown", "purple", "black", "white", "pink", "aqua"];
+const fibreColoursEight = ["blue", "orange", "green", "red", "slate", "yellow", "brown", "purple"];
+
+// DOM Selectors
+
+const fibreNumber = document.getElementById("fibre-number");
+const elementNumber = document.getElementById("fibre-element");
+const displayFibre = document.getElementById("display-fibre");
+const displayElement = document.getElementById("display-element");
 
 function getFibreNumber() {
-  const fibre = fibreNumber.value
-  const elementValue = Math.ceil(fibre / 12)
+  const fibre = fibreNumber.value;
+  const elementValue = Math.ceil(fibre / 12);
 
-  let fibreColour = fibre < 13 ? fibre / elementValue - 1 : fibre - (elementValue - 1) * 12 - 1
-  let coloursHtml = ""
+  let fibreColour = fibre < 13 ? fibre / elementValue - 1 : fibre - (elementValue - 1) * 12 - 1;
 
-  for (let i = 0; i < fibreColours.length; i++) {
-    coloursHtml += `<span class="${fibreColours[i]}-fibre">${maxElementFibre * elementValue - (11 - i)}</span> `
-  }
+  let coloursHtml = fibreColours
+    .map((fibreColour, index) => {
+      return `<span class="fibre-span ${fibreColour}-fibre">${maxElementFibre * elementValue - (11 - index)}</span> `;
+    })
+    .join("");
 
   if (fibreNumber.value === "" || fibreNumber.value === "0") {
   } else if (fibreNumber.value > 864) {
-    numberColour.innerHTML = `<div id="number-colour" class="alert"> MAX FIBRE COUNT 864</div>`
-    numberElement.innerHTML = ``
-    numberOthers.innerHTML = ``
+    displayFibre.innerHTML = `
+        <div class="alert">MAX FIBRE COUNT 864</div>
+    `;
   } else {
-    numberColour.innerHTML = `<div id="number-colour">Fibre ${fibre} is <span class="${fibreColours[fibreColour]}-fibre inline-span">${fibreColours[fibreColour]}</span></div>`
-    numberElement.innerHTML = `<div id="number-element">Fibre is in ELEMENT ${elementValue}</div>`
-    numberOthers.innerHTML = `<div id="number-others">${coloursHtml}</div>`
-  }
-}
-
-function getFibreNumberEight() {
-  const fibre = fibreNumber.value
-  const elementValue = Math.ceil(fibre / 8)
-
-  let fibreColour = fibre < 9 ? fibre / elementValue - 1 : fibre - (elementValue - 1) * 8 - 1
-  let coloursHtml = ""
-
-  for (let i = 0; i < fibreColoursEight.length; i++) {
-    coloursHtml += `<span class="${fibreColoursEight[i]}-fibre">${maxElementFibreEight * elementValue - (7 - i)}</span> `
-  }
-
-  if (fibreNumber.value === "" || fibreNumber.value === "0") {
-  } else if (fibreNumber.value > 96) {
-    numberColour.innerHTML = `<div id="number-colour" class="alert"> MAX FIBRE COUNT 96</div>`
-    numberElement.innerHTML = ``
-    numberOthers.innerHTML = ``
-  } else {
-    numberColour.innerHTML = `<div id="number-colour">Fibre ${fibre} is <span class="${fibreColoursEight[fibreColour]}-fibre inline-span">${fibreColoursEight[fibreColour]}</span></div>`
-    numberElement.innerHTML = `<div id="number-element">Fibre is in ELEMENT ${elementValue}</div>`
-    numberOthers.innerHTML = `<div id="number-others">${coloursHtml}</div>`
+    displayFibre.innerHTML = `
+        <div>Fibre <span class="accent">${fibre}<span> is  <span class="${fibreColours[fibreColour]}-fibre inline-span">${fibreColours[fibreColour]}</span></div>
+        <div>and is in ELEMENT <span class="accent">${elementValue}</span></div>
+        <div class="colour-display">${coloursHtml}</div>`;
   }
 }
 
 function getElementNumber() {
-  //prettier-ignore
-  // let fibreColour = fibre < 13 ? fibre / elementValue - 1 : fibre - (elementValue - 1) * 12 - 1;
-  let coloursHtml = "";
-
-  for (let i = 0; i < fibreColours.length; i++) {
-    coloursHtml += `<span class="${fibreColours[i]}-fibre">${maxElementFibre * elementNumber.value - (11 - i)}</span> `
-  }
+  let coloursHtml = fibreColours
+    .map((fibreColour, index) => {
+      return `<span class="fibre-span ${fibreColour}-fibre">${maxElementFibre * elementNumber.value - (11 - index)}</span> `;
+    })
+    .join("");
 
   if (elementNumber.value === "" || elementNumber === "0") {
   } else if (elementNumber.value > 72) {
-    elementCount.innerHTML = `<div id="element-Count" class="alert">MAX ELEMENT COUNT 72</div>`
-    elementOther.innerHTML = `<div id="element-others"></div>`
+    displayElement.innerHTML = `<div id="element-Count" class="alert">MAX ELEMENT COUNT 72</div>`;
   } else {
-    elementCount.innerHTML = `<div id="element-Count">Fibres ELEMENT ${elementNumber.value}</div>`
-    elementOther.innerHTML = `<div id="element-others">${coloursHtml}</div>`
+    displayElement.innerHTML = `
+      <div>Fibre numbers in ELEMENT <span class="accent">${elementNumber.value}</span></div>
+      <div class="colour-display">${coloursHtml}</div>`;
   }
 }
 
-function getElementNumberEight() {
-  //prettier-ignore
-  // let fibreColour = fibre < 13 ? fibre / elementValue - 1 : fibre - (elementValue - 1) * 12 - 1;
-  let coloursHtml = "";
-  
+// Event Listeners
 
-  for (let i = 0; i < fibreColoursEight.length; i++) {
-    coloursHtml += `<span class="${fibreColoursEight[i]}-fibre">${maxElementFibreEight * elementNumber.value - (7 - i)}</span> `
-  }
+fibreNumber.addEventListener("keyup", function () {
+  getFibreNumber();
+});
 
-  if (elementNumber.value === "" || elementNumber === "0") {
-  } else if (elementNumber.value > 12) {
-    elementCount.innerHTML = `<div id="element-Count" class="alert">MAX ELEMENT COUNT 12</div>`
-    elementOther.innerHTML = `<div id="element-others"></div>`
-  } else {
-    elementCount.innerHTML = `<div id="element-Count">Fibres ELEMENT ${elementNumber.value}</div>`
-    elementOther.innerHTML = `<div id="element-others">${coloursHtml}</div>`
-  }
-}
-
-function resetContent() {
-  elementCount.innerHTML = ``
-  elementOther.innerHTML = ``
-  numberColour.innerHTML = ``
-  numberElement.innerHTML = ``
-  numberOthers.innerHTML = ``
-  fibreNumber.value = ``
-  elementNumber.value = ``
-}
-
-
-twelveFibre.addEventListener("click", function(){
-  fibreSelect = 12
-  resetContent()
-  eightFibre.classList.remove('active')
-  twelveFibre.classList.add('active')
-})
-
-eightFibre.addEventListener("click", function(){
-  fibreSelect = 8
-  resetContent()
-  eightFibre.classList.add('active')
-  twelveFibre.classList.remove('active')
-})
-
-
-fibreNumber.addEventListener("keyup", function() {
-    if (fibreSelect === 12) {
-      getFibreNumber()
-    }  else if(fibreSelect === 8) {
-      getFibreNumberEight()
-    }
-})
-
-elementNumber.addEventListener("keyup", function(){
-  if (fibreSelect === 12) {
-    getElementNumber()
-  }  else if(fibreSelect === 8) {
-    getElementNumberEight()
-  }
-})
-
-resetButton.addEventListener("click", resetContent)
+elementNumber.addEventListener("keyup", function () {
+  getElementNumber();
+});
