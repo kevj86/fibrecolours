@@ -40,7 +40,7 @@
   gap: 2em;
 }
 
-.element-selector .btn {
+.btn {
   background-color: #fff;
   color: var(--clr-gray);
   font-size: 1rem;
@@ -54,6 +54,10 @@
 }
 
 .element-selector .btn:hover {
+  background: var(--clr-green);
+}
+
+.active {
   background: var(--clr-green);
 }
 
