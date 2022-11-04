@@ -17,7 +17,7 @@
 
 .wrapper {
   padding: 1em;
-  width: 500px;
+  width: 450px;
   margin: 0 auto;
 }
 
@@ -96,7 +96,7 @@
 
 #display-fibre,
 #display-element {
-  height: 20vh;
+  height: 25vh;
   display: flex;
   flex-direction: column;
   padding: 1em 0;
@@ -128,16 +128,17 @@
 /* FIBRE COLOURS DISPLAY */
 
 .colour-display {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   font-size: 1rem;
 }
 
 .fibre-span {
   display: block;
-  padding: 0.25em;
+  width: 60px;
+  padding: 0.5em;
   margin: 0;
   font-weight: 700;
-  width: 40px;
   text-align: center;
 }
 
