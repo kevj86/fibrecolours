@@ -90,7 +90,7 @@ function setGlowColor(colourName) {
 // FIBRE DATA
 // ============================================
 
-let fibreSelect = null;
+let fibreSelect = 12;
 
 const maxFibre12 = 12;
 const maxFibre8  = 8;
@@ -290,6 +290,10 @@ function getElementNumberEight() {
 fibreNumber?.addEventListener("keyup", function () {
   const val = parseInt(fibreNumber.value);
   if (!fibreNumber.value || val < 1) { resetValues(); return; }
+  if (!fibreSelect) {
+    displayFibre.innerHTML = `<div class="alert">Must select 12F or 8F</div>`;
+    return;
+  }
   if (fibreSelect === 12) getFibreNumber();
   else if (fibreSelect === 8) getFibreNumberEight();
 });
@@ -300,9 +304,41 @@ elementNumber?.addEventListener("keyup", function () {
     if (displayElement) displayElement.innerHTML = "";
     return;
   }
+  if (!fibreSelect) {
+    displayElement.innerHTML = `<div class="alert">Must select 12F or 8F</div>`;
+    return;
+  }
   if (fibreSelect === 12) getElementNumber();
   else if (fibreSelect === 8) getElementNumberEight();
 });
+
+fibreNumber?.addEventListener("wheel", function (e) {
+  e.preventDefault();
+  const current = parseInt(fibreNumber.value) || 0;
+  const newVal = e.deltaY < 0 ? current + 1 : current - 1;
+  if (newVal < 1) return;
+  fibreNumber.value = newVal;
+  if (!fibreSelect) {
+    displayFibre.innerHTML = `<div class="alert">Must select 12F or 8F</div>`;
+    return;
+  }
+  if (fibreSelect === 12) getFibreNumber();
+  else if (fibreSelect === 8) getFibreNumberEight();
+}, { passive: false });
+
+elementNumber?.addEventListener("wheel", function (e) {
+  e.preventDefault();
+  const current = parseInt(elementNumber.value) || 0;
+  const newVal = e.deltaY < 0 ? current + 1 : current - 1;
+  if (newVal < 1) return;
+  elementNumber.value = newVal;
+  if (!fibreSelect) {
+    displayElement.innerHTML = `<div class="alert">Must select 12F or 8F</div>`;
+    return;
+  }
+  if (fibreSelect === 12) getElementNumber();
+  else if (fibreSelect === 8) getElementNumberEight();
+}, { passive: false });
 
 document.getElementById("reset")?.addEventListener("click", () => {
   resetValues();
@@ -371,3 +407,7 @@ function getSFPInfo() {
 }
 
 getSFPInfo();
+
+// Initialise with 12F selected
+twelveFibre?.classList.add("active");
+updateHints();
