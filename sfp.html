@@ -52,68 +52,35 @@
       </div>
       <div class="hidden md:flex items-center gap-1">
         <a href="/index.html"
-           class="text-primary text-sm font-semibold px-3 py-1.5 rounded-lg bg-surface-container-high">Identifier</a>
+           class="text-secondary text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-surface-container-high transition-colors">Identifier</a>
         <a href="/stores.html"
            class="text-secondary text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-surface-container-high transition-colors">Inventory</a>
         <a href="/sfp.html"
-           class="text-secondary text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-surface-container-high transition-colors">SFP Info</a>
+           class="text-primary text-sm font-semibold px-3 py-1.5 rounded-lg bg-surface-container-high">SFP Info</a>
       </div>
     </nav>
 
     <!-- Main Content -->
     <main class="relative pt-24 pb-28 md:pb-16 px-6 w-full max-w-2xl mx-auto flex flex-col gap-6">
 
-      <!-- Atmospheric glow (JS updates this) -->
-      <div id="glow" class="glow-blob"></div>
-
       <!-- Page Header -->
       <header class="relative z-10 flex flex-col gap-1 mt-2">
-        <h1 class="text-4xl font-extrabold tracking-tight text-on-surface">Fibre Identifier</h1>
-        <p class="text-sm text-secondary">Locate and verify physical cable strands.</p>
+        <h1 class="text-4xl font-extrabold tracking-tight text-on-surface">SFP Info</h1>
+        <p class="text-sm text-secondary">Transceiver reference guide.</p>
       </header>
 
-      <!-- 12F / 8F Selector -->
-      <div class="element-selector relative z-10">
-        <div class="flex p-1 rounded-xl gap-2" style="background:#1a1c1d;">
-          <div class="selector-buttons contents">
-            <button id="12f" class="btn flex-1 py-3">12F</button>
-            <button id="8f"  class="btn flex-1 py-3">8F</button>
+      <!-- SFP Table -->
+      <section class="relative z-10">
+        <div class="wrapper">
+          <div class="wrapper-row">
+            <div class="wrapper-column wrapper-header">SFP Code</div>
+            <div class="wrapper-column wrapper-header">Part #</div>
+            <div class="wrapper-column wrapper-header">Max Dist</div>
+            <div class="wrapper-column wrapper-header">Latch</div>
           </div>
+          <div class="display-sfp"></div>
         </div>
-      </div>
-
-      <!-- Tab Bar -->
-      <div class="tab-bar relative z-10">
-        <button id="tab-number" class="tab tab-active">
-          <span class="material-symbols-outlined">tag</span>
-          Fibre by Number
-        </button>
-        <button id="tab-element" class="tab">
-          <span class="material-symbols-outlined">grid_view</span>
-          Fibre by Element
-        </button>
-      </div>
-
-      <!-- Section: Fibre by Number -->
-      <section id="section-number" class="fibre-number relative z-10 flex flex-col gap-4">
-        <div class="input-wrap">
-          <input type="number" id="fibre-number" min="1" placeholder="00" />
-          <span id="hint-number" class="input-hint">Select 12F or 8F to begin</span>
-        </div>
-        <div id="display-fibre"></div>
       </section>
-
-      <!-- Section: Fibre by Element (hidden by default) -->
-      <section id="section-element" class="fibre-element hidden relative z-10 flex flex-col gap-4">
-        <div class="input-wrap">
-          <input type="number" id="fibre-element" min="1" placeholder="00" />
-          <span id="hint-element" class="input-hint">Select 12F or 8F to begin</span>
-        </div>
-        <div id="display-element"></div>
-      </section>
-
-      <!-- Reset -->
-      <button id="reset">Reset</button>
 
     </main>
 
@@ -121,9 +88,9 @@
     <nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-2xl flex justify-around items-center h-20 px-4 pb-2"
          style="background:rgba(30,32,33,0.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 -8px 32px rgba(0,0,0,0.5);">
       <a href="/index.html"
-         class="flex flex-col items-center justify-center gap-1 text-white bg-surface-container-high rounded-xl px-4 py-1.5">
-        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:22px;">palette</span>
-        <span class="text-[11px] font-semibold uppercase tracking-wide">Identifier</span>
+         class="flex flex-col items-center justify-center gap-1 text-secondary opacity-60 px-4 py-1.5">
+        <span class="material-symbols-outlined" style="font-size:22px;">palette</span>
+        <span class="text-[11px] font-medium uppercase tracking-wide">Identifier</span>
       </a>
       <a href="/stores.html"
          class="flex flex-col items-center justify-center gap-1 text-secondary opacity-60 px-4 py-1.5">
@@ -131,9 +98,9 @@
         <span class="text-[11px] font-medium uppercase tracking-wide">Inventory</span>
       </a>
       <a href="/sfp.html"
-         class="flex flex-col items-center justify-center gap-1 text-secondary opacity-60 px-4 py-1.5">
-        <span class="material-symbols-outlined" style="font-size:22px;">settings_input_component</span>
-        <span class="text-[11px] font-medium uppercase tracking-wide">SFP Info</span>
+         class="flex flex-col items-center justify-center gap-1 text-white bg-surface-container-high rounded-xl px-4 py-1.5">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:22px;">settings_input_component</span>
+        <span class="text-[11px] font-semibold uppercase tracking-wide">SFP Info</span>
       </a>
     </nav>
 
