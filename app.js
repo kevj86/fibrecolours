@@ -433,16 +433,74 @@ const SFP = [
   { SFPName: "SFP-213", PartNumb: "1061701859-01", Distance: "Cust Port", LatchColour: "Blue"   },
 ];
 
+const LATCH_COLOURS = {
+  Blue:   "#2563EB",
+  Purple: "#7C3AED",
+  Gold:   "#D97706",
+  Green:  "#16A34A",
+  Red:    "#DC2626",
+  Silver: "#94A3B8",
+  Black:  "#374151",
+  Yellow: "#CA8A04",
+  Grey:   "#6B7280",
+};
+
 function getSFPInfo() {
-  const target = document.querySelector(".display-sfp");
-  if (!target) return;
-  target.innerHTML = SFP.map((data) => `
-    <div class="wrapper-row">
-      <div class="wrapper-column">${data.SFPName}</div>
-      <div class="wrapper-column">${data.PartNumb}</div>
-      <div class="wrapper-column">${data.Distance}</div>
-      <div class="wrapper-column">${data.LatchColour}</div>
-    </div>`).join("");
+  const searchEl = document.getElementById("sfp-search");
+  if (!searchEl) return;
+
+  const resultsEl = document.getElementById("sfp-results");
+  const hintEl    = document.getElementById("sfp-hint");
+
+  function render() {
+    const query    = searchEl.value.trim().toLowerCase();
+    const filtered = query
+      ? SFP.filter(s =>
+          s.SFPName.toLowerCase().includes(query) ||
+          s.PartNumb.toLowerCase().includes(query)
+        )
+      : SFP;
+
+    if (hintEl) {
+      hintEl.textContent = query
+        ? `${filtered.length} of ${SFP.length}`
+        : `${SFP.length} transceivers`;
+    }
+
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = `
+        <div class="empty-state">
+          <span class="material-symbols-outlined">search_off</span>
+          <span>No SFP found</span>
+        </div>`;
+      return;
+    }
+
+    resultsEl.innerHTML = filtered.map(s => `
+      <div class="sfp-card">
+        <div class="sfp-card-name">${escHtml(s.SFPName)}</div>
+        <div class="sfp-card-chips">
+          <div class="sfp-chip-group">
+            <span class="sfp-chip-label">Part #</span>
+            <span class="sfp-chip sfp-chip-part">${escHtml(s.PartNumb)}</span>
+          </div>
+          <div class="sfp-chip-group">
+            <span class="sfp-chip-label">Distance</span>
+            <span class="sfp-chip">${escHtml(s.Distance)}</span>
+          </div>
+          <div class="sfp-chip-group">
+            <span class="sfp-chip-label">Latch</span>
+            <span class="sfp-chip sfp-chip-latch">
+              <span class="sfp-latch-dot" style="background:${LATCH_COLOURS[s.LatchColour] || '#555'}"></span>
+              ${escHtml(s.LatchColour)}
+            </span>
+          </div>
+        </div>
+      </div>`).join("");
+  }
+
+  searchEl.addEventListener("input", render);
+  render();
 }
 
 getSFPInfo();

@@ -123,20 +123,16 @@
       <!-- Page Header -->
       <header class="relative z-10 flex flex-col gap-1 mt-2">
         <h1 class="text-4xl font-extrabold tracking-tight text-on-surface">SFP Info</h1>
-        <p class="text-sm text-secondary">Transceiver reference guide.</p>
+        <p class="text-sm text-secondary">Search by SFP code or part number.</p>
       </header>
 
-      <!-- SFP Table -->
-      <section class="relative z-10">
-        <div class="wrapper">
-          <div class="wrapper-row sfp-header-row">
-            <div class="wrapper-column wrapper-header">SFP Code</div>
-            <div class="wrapper-column wrapper-header">Part #</div>
-            <div class="wrapper-column wrapper-header">Max Dist</div>
-            <div class="wrapper-column wrapper-header">Latch</div>
-          </div>
-          <div class="display-sfp"></div>
+      <!-- Search -->
+      <section class="relative z-10 flex flex-col gap-4">
+        <div class="input-wrap">
+          <input type="search" id="sfp-search" class="sfp-search-input" placeholder="e.g. SFP-05" autocomplete="off" />
+          <span id="sfp-hint" class="input-hint"></span>
         </div>
+        <div id="sfp-results"></div>
       </section>
 
     </main>
