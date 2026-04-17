@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Admin — Fibre Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface":                  "#121415",
+              "surface-bright":           "#38393a",
+              "surface-container-lowest": "#0c0e0f",
+              "surface-container-low":    "#1a1c1d",
+              "surface-container":        "#1e2021",
+              "surface-container-high":   "#282a2b",
+              "surface-container-highest":"#333536",
+              "primary":                  "#adc7ff",
+              "primary-container":        "#4a8eff",
+              "tertiary":                 "#00daf3",
+              "secondary":                "#c6c6c9",
+              "on-surface":               "#e2e2e3",
+              "on-surface-variant":       "#c1c6d7",
+              "outline-variant":          "#414754",
+            },
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  </head>
+  <body class="dark antialiased bg-surface text-on-surface min-h-dvh">
+
+    <!-- Fixed Top Nav -->
+    <nav class="fixed top-0 w-full z-50 h-16"
+         style="background:rgba(18,20,21,0.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);">
+      <div class="flex items-center justify-between h-full px-6 w-full max-w-2xl mx-auto">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-primary"
+                style="font-variation-settings:'FILL' 1;font-size:22px;">settings_input_composite</span>
+          <span class="font-bold tracking-tight text-on-surface text-lg">Fibre Dashboard</span>
+        </div>
+        <button id="menu-btn" aria-label="Open menu"
+                style="width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;border-radius:8px;background:transparent;border:none;cursor:pointer;color:var(--on-surface-variant);transition:background 0.15s,color 0.15s;"
+                onmouseover="this.style.background='var(--surface-container-high)';this.style.color='var(--on-surface)'"
+                onmouseout="this.style.background='transparent';this.style.color='var(--on-surface-variant)'">
+          <span class="material-symbols-outlined" style="font-size:22px;">menu</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Menu overlay -->
+    <div id="menu-overlay"
+         style="position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;transition:opacity 0.25s ease;backdrop-filter:blur(4px);">
+    </div>
+
+    <!-- Menu drawer -->
+    <div id="menu-drawer"
+         style="position:fixed;top:0;right:0;bottom:0;z-index:101;width:280px;max-width:85vw;
+                background:#1a1c1d;
+                transform:translateX(100%);transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);
+                display:flex;flex-direction:column;padding:0;box-shadow:-8px 0 40px rgba(0,0,0,0.6);">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="material-symbols-outlined text-primary"
+                style="font-variation-settings:'FILL' 1;font-size:20px;">settings_input_composite</span>
+          <span style="font-weight:700;font-size:0.9375rem;color:var(--on-surface);">Fibre Dashboard</span>
+        </div>
+        <button id="menu-close" aria-label="Close menu"
+                style="width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;border-radius:6px;background:transparent;border:none;cursor:pointer;color:var(--on-surface-variant);transition:background 0.15s;">
+          <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+        </button>
+      </div>
+
+      <div style="height:1px;background:var(--outline-variant);margin:0 20px 12px;opacity:0.4;"></div>
+
+      <nav style="padding:0 12px;display:flex;flex-direction:column;gap:4px;flex:1;">
+        <a href="/index.html" class="menu-link">
+          <span class="material-symbols-outlined">palette</span>
+          Identifier
+        </a>
+        <a href="/stores.html" class="menu-link">
+          <span class="material-symbols-outlined">inventory_2</span>
+          Inventory
+        </a>
+        <a href="/sfp.html" class="menu-link">
+          <span class="material-symbols-outlined">settings_input_component</span>
+          SFP Info
+        </a>
+        <a href="/learning.html" class="menu-link">
+          <span class="material-symbols-outlined">school</span>
+          Learning Home
+        </a>
+        <div style="height:1px;background:var(--outline-variant);margin:8px 8px;opacity:0.4;"></div>
+        <a href="/admin.html" class="menu-link active">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
+          Admin
+        </a>
+      </nav>
+
+      <div style="padding:12px;border-top:1px solid rgba(65,71,84,0.4);margin-top:auto;">
+        <button id="sign-out-btn" class="menu-link" style="width:100%;background:transparent;border:none;cursor:pointer;text-align:left;">
+          <span class="material-symbols-outlined">logout</span>
+          Sign out
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================
+         LOGIN SECTION
+         ============================================ -->
+    <section id="login-section" class="flex items-center justify-center px-6 py-12" style="min-height:calc(100dvh - 64px);margin-top:64px;">
+      <div class="login-card">
+        <div class="login-header">
+          <span class="material-symbols-outlined text-primary"
+                style="font-variation-settings:'FILL' 1;font-size:28px;">settings_input_composite</span>
+          <div>
+            <h1 class="login-title">Inventory Admin</h1>
+            <p class="login-subtitle">Fibre Dashboard</p>
+          </div>
+        </div>
+
+        <form id="login-form" class="flex flex-col gap-4" novalidate>
+          <div class="form-field">
+            <label for="admin-email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="admin-email"
+              class="admin-input"
+              autocomplete="email"
+              required
+              placeholder="admin@example.com"
+            />
+          </div>
+          <div class="form-field">
+            <label for="admin-password" class="form-label">Password</label>
+            <input
+              type="password"
+              id="admin-password"
+              class="admin-input"
+              autocomplete="current-password"
+              required
+              placeholder="••••••••"
+            />
+          </div>
+          <p id="login-error" class="form-error hidden" role="alert"></p>
+          <button type="submit" id="login-btn" class="btn-primary">Sign in</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================
+         DASHBOARD SECTION
+         ============================================ -->
+    <section id="dashboard-section" class="hidden">
+
+      <!-- Dashboard content -->
+      <main class="pt-24 pb-12 px-4 w-full max-w-2xl mx-auto flex flex-col gap-4">
+
+        <!-- Toolbar: search + add -->
+        <div class="admin-toolbar">
+          <div class="search-wrap">
+            <span class="material-symbols-outlined search-icon">search</span>
+            <input
+              type="search"
+              id="admin-search"
+              class="admin-search-input"
+              placeholder="Search items…"
+              autocomplete="off"
+            />
+          </div>
+          <button id="add-item-btn" class="btn-primary btn-add">
+            <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+            Add Item
+          </button>
+        </div>
+
+        <!-- Count -->
+        <div class="admin-meta">
+          <span id="admin-count" class="items-count"></span>
+        </div>
+
+        <!-- Items list -->
+        <div id="admin-items-list" class="admin-list"></div>
+
+      </main>
+    </section>
+
+    <!-- ============================================
+         ADD / EDIT MODAL
+         ============================================ -->
+    <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-title" class="modal-title-text">Add Item</h2>
+          <button id="modal-cancel-btn" class="modal-close-btn" aria-label="Close">
+            <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+          </button>
+        </div>
+
+        <form id="item-form" class="flex flex-col gap-4" novalidate>
+          <div class="form-field">
+            <label for="item-name-input" class="form-label">Item Name <span class="required-star">*</span></label>
+            <input
+              type="text"
+              id="item-name-input"
+              class="admin-input"
+              required
+              placeholder="e.g. Patch Lead SM LC-LC 5m"
+            />
+          </div>
+          <div class="form-field">
+            <label for="item-code-input" class="form-label">Item Code <span class="required-star">*</span></label>
+            <input
+              type="text"
+              id="item-code-input"
+              class="admin-input"
+              required
+              placeholder="e.g. A1234567"
+            />
+          </div>
+          <div class="form-field">
+            <label for="item-category-select" class="form-label">Category <span class="required-star">*</span></label>
+            <select id="item-category-select" class="admin-select">
+              <option value="ethernet">Ethernet</option>
+              <option value="newsite">Newsite</option>
+              <option value="exchange">Exchange</option>
+              <option value="overhead">Overhead</option>
+              <option value="nodes">Nodes</option>
+              <option value="blownfibre">Blown Fibre</option>
+              <option value="consumables">Consumables</option>
+              <option value="tools">Tools</option>
+              <option value="misc">Misc</option>
+            </select>
+          </div>
+          <p id="modal-error" class="form-error hidden" role="alert"></p>
+          <div class="modal-actions">
+            <button type="button" id="modal-cancel-btn-footer" class="btn-ghost btn-modal-cancel">Cancel</button>
+            <button type="submit" id="modal-save-btn" class="btn-primary">Add Item</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================
+         DELETE CONFIRM DIALOG
+         ============================================ -->
+    <div id="confirm-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="modal-card confirm-card">
+        <div class="confirm-icon-wrap">
+          <span class="material-symbols-outlined" style="font-size:32px;color:var(--error);">delete_forever</span>
+        </div>
+        <h2 id="confirm-title" class="confirm-title">Delete item?</h2>
+        <p class="confirm-body">
+          "<span id="confirm-item-name"></span>" will be permanently removed.
+        </p>
+        <div class="modal-actions">
+          <button id="confirm-cancel-btn" class="btn-ghost btn-modal-cancel">Cancel</button>
+          <button id="confirm-delete-btn" class="btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" aria-live="polite"></div>
+
+    <script>
+      // Hamburger menu
+      const btn = document.getElementById('menu-btn');
+      const overlay = document.getElementById('menu-overlay');
+      const drawer = document.getElementById('menu-drawer');
+      const closeBtn = document.getElementById('menu-close');
+      function openMenu() {
+        overlay.style.opacity = '1';
+        overlay.style.pointerEvents = 'auto';
+        drawer.style.transform = 'translateX(0)';
+      }
+      function closeMenu() {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        drawer.style.transform = 'translateX(100%)';
+      }
+      btn.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      // Wire secondary cancel button in modal footer
+      document.getElementById("modal-cancel-btn-footer")?.addEventListener("click", () => {
+        document.getElementById("modal-cancel-btn").click();
+      });
+    </script>
+
+    <script src="admin.js" type="module"></script>
+  </body>
+</html>

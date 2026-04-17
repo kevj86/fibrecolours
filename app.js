@@ -2,61 +2,100 @@
 // DATABASE
 // ============================================
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { database } from "./firebase-config.js";
+import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-const appSettings = {
-  databaseURL: "https://fibre-b9004-default-rtdb.europe-west1.firebasedatabase.app/",
-};
+const itemsRef = ref(database, "items");
 
-const app = initializeApp(appSettings);
-const database = getDatabase(app);
-const itemCodes = ref(database, "items");
-let displayHTML = "";
+// ============================================
+// TOAST
+// ============================================
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add("toast-visible");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("toast-visible"), 3000);
+}
+
+// ============================================
+// UTILS
+// ============================================
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 // ============================================
 // ITEM CODES (stores.html)
 // ============================================
 
-if (window.location.href === "https://kjfibre.netlify.app/stores") {
-  onValue(itemCodes, function (snapshot) {
-    const selectEl = document.getElementById("display-items");
-    let selected = selectEl?.options[selectEl.selectedIndex]?.getAttribute("data-button") || "ethernet";
+if (document.getElementById("display-items")) {
+  const selectEl = document.getElementById("display-items");
+  const searchEl = document.getElementById("search-items");
+  const countEl  = document.getElementById("items-count");
+  let allItems = [];
 
-    const newItemList = [];
-    const itemList = Object.entries(snapshot.val());
+  function render() {
+    const selected = selectEl.value;
+    const query    = (searchEl?.value || "").trim().toLowerCase();
 
-    for (let i = 0; i < itemList.length; i++) {
-      const [newKey, newEntry] = itemList[i];
-      newItemList.push({
-        key: newKey,
-        itemname: newEntry.itemname,
-        itemcode: newEntry.itemcode,
-        storetype: newEntry.storetype,
-      });
+    const filtered = query
+      ? allItems.filter(i =>
+          i.itemname.toLowerCase().includes(query) ||
+          i.itemcode.toLowerCase().includes(query)
+        )
+      : allItems.filter(i => i.storetype === selected);
+
+    if (countEl) {
+      countEl.textContent = `${filtered.length} item${filtered.length !== 1 ? "s" : ""}`;
     }
 
-    function render(filterItems) {
-      displayHTML = "";
-      filterItems.forEach((filteredItem) => {
-        displayHTML += `
-          <div class="item">
-            <div class="store-info">
-              <div class="store-item">${filteredItem.itemname}</div>
-              <div>${filteredItem.itemcode}</div>
-            </div>
-          </div>`;
-      });
-      document.getElementById("display-results").innerHTML = displayHTML;
+    const container = document.getElementById("display-results");
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <span class="material-symbols-outlined">search_off</span>
+          <span>No items found</span>
+        </div>`;
+      return;
     }
 
-    document.addEventListener("change", function (e) {
-      const filtered = newItemList.filter((store) => store.storetype === e.target.value);
-      render(filtered);
+    container.innerHTML = filtered.map(item => `
+      <div class="store-info">
+        <div class="store-item">${escHtml(item.itemname)}</div>
+        <div class="store-code" data-code="${escHtml(item.itemcode)}" title="Tap to copy">
+          <span>${escHtml(item.itemcode)}</span>
+          <span class="copy-icon material-symbols-outlined">content_copy</span>
+        </div>
+      </div>`).join("");
+
+    container.querySelectorAll(".store-code").forEach(el => {
+      el.addEventListener("click", () => {
+        navigator.clipboard?.writeText(el.dataset.code).then(() => showToast("Code copied"));
+      });
     });
+  }
 
-    render(newItemList.filter((store) => store.storetype === selected));
+  onValue(itemsRef, snapshot => {
+    allItems = [];
+    if (snapshot.val()) {
+      allItems = Object.entries(snapshot.val()).map(([key, entry]) => ({ key, ...entry }));
+      allItems.sort((a, b) => a.itemname.localeCompare(b.itemname));
+    }
+    render();
   });
+
+  selectEl.addEventListener("change", render);
+  searchEl?.addEventListener("input", render);
 }
 
 // ============================================

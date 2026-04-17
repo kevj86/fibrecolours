@@ -109,6 +109,11 @@
           <span class="material-symbols-outlined">school</span>
           Learning Home
         </a>
+        <div style="height:1px;background:var(--outline-variant);margin:8px 8px;opacity:0.4;"></div>
+        <a href="/admin.html" class="menu-link">
+          <span class="material-symbols-outlined">admin_panel_settings</span>
+          Admin
+        </a>
       </nav>
     </div>
 
@@ -123,17 +128,21 @@
 
       <!-- Selector + List -->
       <section class="relative z-10 flex flex-col">
+        <input type="search" id="search-items" class="search-input" placeholder="Search all items…" autocomplete="off" />
         <select name="display-items" id="display-items">
-          <option value="ethernet"     data-button="ethernet">Ethernet</option>
-          <option value="newsite"      data-button="newsite">Newsite</option>
-          <option value="exchange"     data-button="exchange">Exchange</option>
-          <option value="overhead"     data-button="overhead">Overhead</option>
-          <option value="nodes"        data-button="nodes">Nodes</option>
-          <option value="blownfibre"   data-button="blownfibre">Blown Fibre</option>
-          <option value="consumables"  data-button="consumables">Consumables</option>
-          <option value="tools"        data-button="tools">Tools</option>
-          <option value="misc"         data-button="misc">Misc</option>
+          <option value="ethernet">Ethernet</option>
+          <option value="newsite">Newsite</option>
+          <option value="exchange">Exchange</option>
+          <option value="overhead">Overhead</option>
+          <option value="nodes">Nodes</option>
+          <option value="blownfibre">Blown Fibre</option>
+          <option value="consumables">Consumables</option>
+          <option value="tools">Tools</option>
+          <option value="misc">Misc</option>
         </select>
+        <div class="results-meta">
+          <span id="items-count" class="items-count"></span>
+        </div>
         <div class="display-results rounded-xl overflow-hidden"
              id="display-results"
              style="background:#1a1c1d;min-height:200px;"></div>
@@ -162,6 +171,9 @@
       closeBtn.addEventListener('click', closeMenu);
       overlay.addEventListener('click', closeMenu);
     </script>
+
+    <!-- Toast -->
+    <div id="toast" aria-live="polite"></div>
 
     <script src="app.js" type="module"></script>
   </body>
