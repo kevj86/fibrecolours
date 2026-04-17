@@ -518,7 +518,8 @@ input[type="number"] { -moz-appearance: textfield; }
 .sfp-search-input {
   width: 100%;
   background: var(--surface-container-highest);
-  color: #ffffff;
+  color: var(--on-surface);
+  -webkit-text-fill-color: var(--on-surface);
   font-family: 'Inter', sans-serif;
   font-size: 2rem;
   font-weight: 800;
